@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="article"
+            type="com.api.articles.model.Article" />
+        <variable
+            name="articleVM"
+            type="com.api.articles.viewmodel.ArticleViewModel" />
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/width_50dp"
+            android:layout_height="@dimen/height_50dp"
+            android:layout_margin="@dimen/margin_16dp"
+            android:src="@mipmap/ic_launcher"
+            app:profile_image="@{article.user[0].avatar}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:gravity="center"
+            android:text="@{article.user[0].name}"
+            android:paddingTop="@dimen/padding_2dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="User Name" />
+
+        <TextView
+            android:id="@+id/designation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{article.user[0].designation}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/userName"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            tools:text="User designation" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16dp"
+            android:text="@{articleVM.getTimeAgo(article.createdAt)}"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1 min" />
+
+        <ImageView
+            android:id="@+id/articleImage"
+            android:layout_width="match_parent"
+            android:visibility="@{articleVM.isMediaNull(article.media) ? View.GONE : View.VISIBLE}"
+            android:layout_height="120dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            app:image_url="@{articleVM.isMediaNull(article.media) ? `` : article.media[0].image}"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:contentDescription="@string/article_image"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintTop_toBottomOf="@id/avatar" />
+
+        <TextView
+            android:id="@+id/articleContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:textColor="@android:color/black"
+            android:text="@{article.content}"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/articleImage"
+            tools:text="@string/article_content"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/articleTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:visibility="@{articleVM.isMediaNull(article.media) ? View.GONE : View.VISIBLE}"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:text="@{articleVM.isMediaNull(article.media) ? `` : article.media[0].title}"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/articleContent"
+            tools:text="@string/article_title" />
+
+        <TextView
+            android:id="@+id/articleUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{articleVM.isMediaNull(article.media) ? View.GONE : View.VISIBLE}"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:text="@{articleVM.isMediaNull(article.media) ? `` : article.media[0].url}"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_constraintTop_toBottomOf="@id/articleTitle"
+            tools:text="@string/article_url" />
+
+        <TextView
+            android:id="@+id/likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@{@string/likes(articleVM.getNumberFormat(article.likes))}"
+            app:layout_constraintStart_toStartOf="@id/articleUrl"
+            app:layout_constraintTop_toBottomOf="@id/articleUrl"
+            tools:text="4.5k Likes" />
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@{@string/comments(articleVM.getNumberFormat(article.comments))}"
+            app:layout_constraintEnd_toEndOf="@id/articleUrl"
+            app:layout_constraintTop_toBottomOf="@id/articleUrl"
+            tools:text="30 comments" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="@id/comments"
+            app:layout_constraintStart_toStartOf="@id/likes"
+            app:layout_constraintTop_toBottomOf="@id/likes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

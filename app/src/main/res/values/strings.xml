@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Article</string>
+    <string name ="article_content">Article content goes here - - Lorem Ipsum is simply dummy text of the printing and type setting industry.
+        Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a gallery of type and scrambled it to make a type
+        specimen book.
+    </string>
+    <string name="article_title">Article title goes here can be multiline</string>
+    <string name="article_url">Article url goes here</string>
+    <string name="article_image">Article image</string>
+    <string name="likes">%s Likes</string>
+    <string name="comments">%s Comments</string>
+    <string name="articles_title">Articles</string>
+
+
+</resources>
